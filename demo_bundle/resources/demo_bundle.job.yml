@@ -23,7 +23,7 @@ resources:
         - task_key: ingest
           existing_cluster_id: ${var.my_lookup_cluster_id}
           notebook_task:
-            notebook_path: /Repos/meghana.tripathi@simbustech.com/asset_bundle_demo_task/src/Notebook_1
+            notebook_path: /Repos/meghana.tripathi@simbustech.com/dabs_demo/src/Notebook_1
             base_parameters:
               input_table: ${var.input_table}
 
@@ -32,7 +32,7 @@ resources:
           depends_on:
              task_key: ingest
           notebook_task:
-            notebook_path: /Repos/meghana.tripathi@simbustech.com/asset_bundle_demo_task/src/Notebook_2
+            notebook_path: /Repos/meghana.tripathi@simbustech.com/dabs_demo/src/Notebook_2
             base_parameters:
               input_table: ${var.input_table}
               output_table: ${var.output_table}
