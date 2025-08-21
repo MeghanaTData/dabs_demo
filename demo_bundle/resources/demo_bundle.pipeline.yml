@@ -1,18 +1,18 @@
 variables:
   my_pipeline_name:
     description: "demo_variables_job"
-    type: complex
+    type: string
     default: "demo_variables_job"
 
   # Unity Catalog Configuration Variables
   uc_catalog:
     description: "Unity Catalog catalog name"
-    type: complex
+    type: string
     default: "az_adb_simbus_training" 
 
   uc_schema:
     description: "Unity Catalog schema name"
-    type: complex
+    type: string
     default: "dab_riz"  
 
   my_pipeline_cluster:
@@ -22,17 +22,16 @@ variables:
       autoscale:
         min_workers: 1
         max_workers: 3
-      node_type_id: "Standard_DS3_v2"
+      node_type_id: "Serverless"   #use serverless-friendly node
       spark_conf:
         spark.speculation: "false"
         spark.databricks.delta.retentionDurationCheck.enabled: "false"
-        # UC-specific configurations
         spark.databricks.unityCatalog.enabled: "true"
         spark.sql.catalog.spark_catalog: "unity"
 
   my_pipeline_notebook_path:
     description: "Path to the DLT notebook"
-    type: complex
+    type: string
     default: "/Repos/meghana.tripathi@simbustech.com/dabs_demo/src/dlt_pipeline"
 
 resources:
@@ -42,7 +41,7 @@ resources:
       
       # Unity Catalog Configuration
       catalog: ${var.uc_catalog}
-      schema: ${var.uc_schema}  # When catalog is specified, target is just the schema name
+      target: ${var.uc_schema}   #use `target` instead of `schema`
       
       # Cluster configuration with UC support
       clusters:
@@ -60,7 +59,7 @@ resources:
       development: true
       photon: true
       edition: "ADVANCED"  
-      # Notebook libraries
+
       libraries:
         - notebook:
             path: ${var.my_pipeline_notebook_path}
