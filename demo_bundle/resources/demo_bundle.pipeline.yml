@@ -33,7 +33,7 @@ variables:
   my_pipeline_notebook_path:
     description: "Path to the DLT notebook"
     type: complex
-    default: "/Repos/meghana.tripathi@simbustech.com/asset_bundle_demo_task/src/dlt_pipeline"
+    default: "/Repos/meghana.tripathi@simbustech.com/dabs_demo/src/dlt_pipeline"
 
 resources:
   pipelines:
