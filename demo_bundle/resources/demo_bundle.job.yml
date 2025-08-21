@@ -1,9 +1,4 @@
 variables:
-  my_lookup_cluster_id:
-    description: "ID of existing cluster found by name"
-    lookup:
-      cluster: "Simbus_DBRX_Cluster"
-    
   input_table:
     description: "Demo input table name"
     type: string
@@ -14,25 +9,31 @@ variables:
     type: string
     default: "demo_output_table"
 
-
 resources:
   jobs:
     demo_variables_job:
       name: "Demo Variables Job"
       tasks:
         - task_key: ingest
-          existing_cluster_id: ${var.my_lookup_cluster_id}
+          job_cluster_key: serverless_cluster
           notebook_task:
             notebook_path: /Repos/meghana.tripathi@simbustech.com/dabs_demo/src/Notebook_1
             base_parameters:
               input_table: ${var.input_table}
 
         - task_key: transform
-          existing_cluster_id: ${var.my_lookup_cluster_id}
+          job_cluster_key: serverless_cluster
           depends_on:
-             task_key: ingest
+            - task_key: ingest
           notebook_task:
             notebook_path: /Repos/meghana.tripathi@simbustech.com/dabs_demo/src/Notebook_2
             base_parameters:
               input_table: ${var.input_table}
               output_table: ${var.output_table}
+
+      job_clusters:
+        - job_cluster_key: serverless_cluster
+          new_cluster:
+            spark_version: "13.3.x-scala2.12"   # Example, adjust per workspace
+            node_type_id: "serverless"          # Key change → use serverless
+            num_workers: 1
